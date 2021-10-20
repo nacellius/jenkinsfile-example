@@ -1,4 +1,9 @@
-def exampleDef = "test string here" // def; syntax similar to Groovy 
+def exampleDef = "test string here"
+def echoParams(options = [], param2, param3){
+    for (i in options){
+        sh "echo ${i}" 
+    }
+}
 
 pipeline {
     agent any // instructs Jenkins to allocate an executor and workspace for the entire pipeline
@@ -11,11 +16,12 @@ pipeline {
         }
         stage("Function") {
             steps {
-                echo "$exampleDef" // use double quotes to support dollar-sign ($) based string interpolation
+                echo "$exampleDef"
+                echoParams(["one", "yee", "yarp"], 2, 3 )
             }
         }
     }
-    post { // stuff to run at the end of all stages
+    post {
         always {
             echo "this post condition will always run"
         }
